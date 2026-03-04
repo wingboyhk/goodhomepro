@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Good Home Professional Construction Inc.</title>
+
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Reset & Base
+    ========================== */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body{
+      font-family:'Inter', sans-serif;
+      font-weight:400;
+      color:#1A1A1A;
+      background:#FFFFFF;
+      line-height:1.6;
+    }
+
+    :root{
+      --ink:#1A1A1A;
+      --muted:#6B7280;
+      --brand:#2A3B4C;
+      --brand-ink:#FFFFFF;
+      --line:#E8E9EB;
+      --surface:#FFFFFF;
+      --surface-2:#F9FAFB;
+
+      --container:1200px;
+      --pad-x:2rem; /* 其他区域保留内边距，仅Hero区域取消 */
+
+      --radius:10px;
+      --shadow:0 2px 12px rgba(0,0,0,0.06);
+
+      --section-y:6rem;
+      --section-y-sm:4rem;
+    }
+
+    .container{
+      width:100%;
+      max-width:var(--container);
+      margin:0 auto;
+      padding:0 var(--pad-x);
+    }
+
+    /* =========================
+       Typography
+    ========================== */
+    h1,h2,h3,h4{
+      font-weight:700;
+      color:var(--brand);
+      line-height:1.15;
+      margin-bottom:1rem;
+    }
+    h1{ font-size:clamp(2.4rem, 5vw, 4rem); }
+    h2{
+      font-size:clamp(1.9rem, 3.6vw, 3rem);
+      text-align:center;
+      margin-bottom:2.5rem;
+      position:relative;
+    }
+    h2::after{
+      content:"";
+      display:block;
+      width:64px;
+      height:3px;
+      background:var(--brand);
+      margin:1rem auto 0;
+      border-radius:2px;
+    }
+    h3{ font-size:clamp(1.2rem, 2vw, 1.75rem); }
+    h4{ font-size:clamp(1rem, 1.4vw, 1.2rem); }
+    p{
+      color:var(--muted);
+      font-size:clamp(1rem, 1vw, 1.1rem);
+      margin-bottom:1rem;
+    }
+
+    /* =========================
+       Buttons
+    ========================== */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.5rem;
+      /* 核心修改：添加透明效果，背景色降低不透明度 */
+      background: rgba(42, 59, 76, 0.9);
+      color:#fff;
+      padding:1rem 1.6rem;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition:transform .18s ease, background-color .18s ease, opacity .18s ease;
+      font-size:1rem;
+      white-space:nowrap;
+      /* 基础透明值，hover时恢复 */
+      opacity: 0.95;
+    }
+    .btn:hover{
+      /* hover时提高不透明度，增强交互反馈 */
+      background: rgba(30, 42, 56, 0.95);
+      transform:translateY(-1px);
+      opacity: 1;
+    }
+    .btn:active{ transform:translateY(0); }
+
+    /* =========================
+       Language System
+    ========================== */
+    .en{ display:block; }
+    .cn{ display:none; }
+    .en.inline, .cn.inline{ display:inline-flex; }
+
+    body.lang-en .en{ display:block; }
+    body.lang-en .en.inline{ display:inline-flex; }
+    body.lang-en .cn{ display:none !important; }
+
+    body.lang-cn .cn{ display:block; }
+    body.lang-cn .cn.inline{ display:inline-flex; }
+    body.lang-cn .en{ display:none !important; }
+
+    /* =========================
+       Section System
+    ========================== */
+    .section{
+      padding:var(--section-y) 0;
+      position:relative;
+      isolation:isolate;
+    }
+    .section--light{ background:var(--surface-2); }
+    .section--white{ background:var(--surface); }
+    .section--dark{
+      background:var(--brand);
+      color:var(--brand-ink);
+    }
+    .section--dark h1,
+    .section--dark h2,
+    .section--dark h3,
+    .section--dark h4{ color:#fff; }
+    .section--dark p{ color:rgba(255,255,255,.85); }
+    .section--dark h2::after{ background:#fff; }
+
+    /* =========================
+       Fixed Language Switch 【核心修改：添加透明效果】
+    ========================== */
+    .language-switch{
+      position:fixed;
+      top:1rem;
+      right:2rem; /* 调整右侧间距，不贴边 */
+      z-index:1000;
+      display:flex;
+      gap:.25rem; /* 缩小按钮间距 */
+      /* 语言按钮容器添加透明效果 */
+      background: rgba(42, 59, 76, 0.85);
+      border-radius:6px; /* 小圆角 */
+      padding:.2rem;
+      box-shadow:none; /* 取消阴影 */
+      transition: background .18s ease;
+    }
+    .language-switch:hover {
+      /* hover时略微提高不透明度 */
+      background: rgba(42, 59, 76, 0.95);
+    }
+    .lang-btn{
+      padding:.4rem .8rem; /* 缩小按钮尺寸 */
+      background:transparent;
+      color:#fff; /* 白色文字 */
+      border:none;
+      border-radius:4px;
+      cursor:pointer;
+      font-weight:700;
+      transition:background .18s ease, color .18s ease, opacity .18s ease;
+      font-size:.9rem;
+      /* 语言按钮基础透明值 */
+      opacity: 0.9;
+    }
+    .lang-btn:hover {
+      /* hover时完全不透明 */
+      opacity: 1;
+    }
+    .lang-btn.active{
+      /* 激活态按钮添加轻微透明 */
+      background: rgba(255, 255, 255, 0.95);
+      color:var(--brand); /* 激活态深色文字 */
+    }
+
+    /* =========================
+       Cards & Grids
+    ========================== */
+    .grid-advantages{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:1.5rem;
+      margin-top:1rem;
+    }
+    .card{
+      background:#fff;
+      border:1px solid rgba(232,233,235,.9);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:2rem;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 26px rgba(0,0,0,.08);
+    }
+
+    /* Services */
+    .grid-services{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:1.5rem;
+    }
+    .service-card{
+      background:#fff;
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(232,233,235,.9);
+      box-shadow:var(--shadow);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .service-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 26px rgba(0,0,0,.08);
+    }
+    .service-img{
+      width:100%;
+      height:210px;
+      object-fit:cover;
+      display:block;
+    }
+    .service-body{ padding:1.5rem; }
+    .service-card--wide{
+      grid-column:span 2;
+      max-width:620px;
+      margin:0 auto;
+    }
+
+    /* Consultation / Authority */
+    .center-narrow{
+      max-width:860px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    /* Process (legacy) */
+    .grid-process{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:1.5rem;
+      margin-top:1rem;
+    }
+    .step{
+      text-align:center;
+      padding:2rem 1.25rem;
+      border-radius:var(--radius);
+      background:#fff;
+      border:1px solid rgba(232,233,235,.9);
+      box-shadow:var(--shadow);
+    }
+    .step-num{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      background:var(--brand);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 1rem;
+      font-weight:900;
+      font-size:1.35rem;
+    }
+
+    /* =========================
+       ✅ NEW: Our Working Process section background (as requested)
+       - Background image applied to the whole #process section
+       - Dark overlay for readability
+       - Headings switched to white
+    ========================== */
+    #process.section--process-bg{
+      background:
+        linear-gradient(rgba(0,0,0,.33), rgba(0,0,0,.33)),
+        url("https://images.unsplash.com/photo-1648218466069-bb93310f97b7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #process.section--process-bg h2{ color:#fff; }
+    #process.section--process-bg h2::after{ background:#fff; }
+    #process.section--process-bg p{ color: rgba(255,255,255,.86); }
+
+    /* =========================
+       Process Flow (Timeline Style)  ✅ Updated: paper texture cards
+    ========================== */
+    .process-flow{
+      position: relative;
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(220px, 1fr));
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    /* 中間連線 + 箭嘴（桌面版） */
+    .process-flow::before{
+      content:"";
+      position:absolute;
+      left: 6%;
+      right: 6%;
+      top: 100px;
+      height: 5px;
+      background: rgba(255,255,255,.55); /* ✅ make line visible on dark bg */
+      z-index: 0;
+    }
+    .process-flow::after{
+      content:"";
+      position:absolute;
+      right: 5.2%;
+      top: 33px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid rgba(255,255,255,.55); /* ✅ make arrow visible */
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      z-index: 0;
+    }
+
+    /* Step cards */
+    .process-node{
+      position: relative;
+      z-index: 1;
+
+      background:
+        linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)),
+        url("https://images.unsplash.com/photo-1565300667498-2843c56b4603?q=80&w=1330&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18); /* a bit stronger for dark bg */
+
+      padding: 2rem 1.6rem 1.8rem;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .process-node:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,.24);
+    }
+
+    .process-dot{
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      background: var(--brand);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      font-size: 1.25rem;
+      margin: 0 auto 1.1rem;
+
+      box-shadow:
+        0 6px 14px rgba(0,0,0,.18),
+        inset 0 0 0 3px rgba(255,255,255,.15);
+
+      position: relative;
+    }
+    .process-dot::after{
+      content:"";
+      position:absolute;
+      inset: 7px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.28);
+    }
+
+    .process-node h4{
+      text-align:center;
+      margin-bottom: .65rem;
+    }
+    .process-node p{
+      text-align:center;
+      margin: 0;
+      color: #6B7280;
+    }
+
+    @media (max-width: 980px){
+      .process-flow{
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .process-flow::before{
+        left: 50%;
+        right: auto;
+        top: 28px;
+        bottom: 28px;
+        width: 2px;
+        height: auto;
+        background: rgba(255,255,255,.55);
+      }
+      .process-flow::after{
+        left: calc(50% - 6px);
+        right: auto;
+        top: auto;
+        bottom: 18px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 10px solid rgba(255,255,255,.55);
+        border-bottom: 0;
+        z-index: 0;
+      }
+      .process-node{
+        padding-top: 1.6rem;
+      }
+    }
+
+    /* ✅ Keep section background, but force card text back to dark/gray */
+    #process.section--process-bg .process-node h4{
+      color: #2A3B4C !important;
+    }
+
+#process.section--process-bg .process-node p{
+  color: #6B7280 !important; /* same as --muted */
+  opacity: 1 !important;
+}
+
+    /* =========================
+       Form (shared)
+    ========================== */
+    .form-group{ margin-bottom:1.25rem; }
+    label{
+      display:block;
+      margin-bottom:.5rem;
+      color:var(--brand);
+      font-weight:800;
+    }
+    input, textarea, select{
+      width:100%;
+      padding:1rem;
+      border:1px solid var(--line);
+      border-radius:10px;
+      font-family:'Inter', sans-serif;
+      font-size:1rem;
+      color:var(--ink);
+      outline:none;
+      transition:border-color .18s ease, box-shadow .18s ease;
+      background:#fff;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color:rgba(42,59,76,.7);
+      box-shadow:0 0 0 4px rgba(42,59,76,.12);
+    }
+    textarea{ min-height:160px; resize:vertical; }
+
+    select:invalid{ color:var(--muted); }
+    option{ color:var(--ink); }
+
+    #form-message{
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:10px;
+      display:none;
+      font-weight:700;
+    }
+    #form-message.success{
+      display:block;
+      background:#d4edda;
+      color:#155724;
+    }
+
+    #form-message.error{
+      display:block;
+      background:#f8d7da;
+      color:#721c24;
+    }
+
+    /* =========================
+       Hero 【核心修改：完全贴左+紧凑排版】
+    ========================== */
+    .section-hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      color:#fff;
+      padding:0;
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size:cover;
+      background-position:center;
+    }
+    .hero-inner{
+      width:100%;
+      padding:0 2rem; /* 仅保留极小的左侧间距，贴近屏幕边缘 */
+    }
+    .section-hero .container{
+      max-width:100%;
+      padding:0;
+      margin:0;
+    }
+    .hero-content{
+      max-width:820px;
+      text-align: left;
+      margin: 0;
+    }
+    .section-hero h1{
+      color:#fff;
+      margin-bottom:.8rem;
+      line-height:1.1;
+    }
+    .section-hero p{
+      color:rgba(255,255,255,.86);
+      margin-bottom:1.2rem;
+      font-size:clamp(1.05rem, 2vw, 1.25rem);
+    }
+    .license{
+      margin-top:1.2rem;
+      color:rgba(255,255,255,.78);
+      font-size:.95rem;
+      font-weight:700;
+      text-align: left;
+    }
+
+    /* =========================
+       Consulting Basis - Background Style (New)
+    ========================== */
+    .section--bg-cover{
+      position: relative;
+      color: #fff;
+      background:
+        linear-gradient(rgba(0,0,0,.62), rgba(0,0,0,.62)),
+        url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2400&q=80");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .section--bg-cover h2{ color:#fff; }
+    .section--bg-cover h2::after{ background:#fff; }
+    .section--bg-cover p{ color: rgba(255,255,255,.86); }
+    .section--bg-cover .center-narrow{ max-width: 920px; }
+    .section--bg-cover .card{
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      backdrop-filter: blur(6px);
+    }
+    .section--bg-cover .card h3{ color:#fff; }
+    .section--bg-cover .card p{ color: rgba(255,255,255,.84); }
+    .section--bg-cover .card:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+    }
+
+    /* =========================
+       Why Work With Us (whyx-)
+    ========================== */
+    .whyx-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:3rem;
+      align-items:stretch;
+    }
+    .whyx-media{
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 14px 34px rgba(0,0,0,.10);
+      background:#fff;
+      height:100%;
+      display:flex;
+    }
+    .whyx-media img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      aspect-ratio: 16/9;
+    }
+    .whyx-content{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      height:100%;
+    }
+    .whyx-content h2{
+      text-align:left;
+      margin-bottom:1.25rem;
+    }
+    .whyx-content h2::after{
+      margin-left:0;
+      margin-right:auto;
+    }
+    .whyx-lead{
+      max-width:520px;
+      margin-bottom:1.75rem;
+    }
+    .whyx-list{
+      display:flex;
+      flex-direction:column;
+      gap:1.15rem;
+      margin:1.25rem 0 1.75rem;
+    }
+    .whyx-point{
+      display:flex;
+      gap:1rem;
+      align-items:flex-start;
+    }
+    .whyx-check{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background:#EEF1F4;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+    }
+    .whyx-check svg{
+      width:18px;
+      height:18px;
+      stroke:var(--brand);
+      stroke-width:3;
+      fill:none;
+    }
+    .whyx-point h4{
+      margin:0 0 .2rem 0;
+      color:var(--brand);
+      font-weight:800;
+    }
+    .whyx-point p{
+      margin:0;
+      color:var(--muted);
+      font-size:1rem;
+    }
+    .whyx-cta{
+      display:flex;
+      gap:1rem;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:auto;
+    }
+    @media (max-width: 980px){
+      .whyx-wrap{ grid-template-columns:1fr; }
+      .whyx-media{ height:300px; }
+      .whyx-media img{ aspect-ratio: 16 / 10; }
+      .whyx-content h2{ text-align:center; }
+      .whyx-content h2::after{ margin:1rem auto 0; }
+      .whyx-lead{ margin-left:auto; margin-right:auto; text-align:center; }
+      .whyx-cta{ justify-content:center; margin-top:1.75rem; }
+    }
+
+    /* =========================
+       Contact (contactx-)
+    ========================== */
+    .contactx-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:2.5rem;
+      align-items:start;
+      margin-top:1.5rem;
+    }
+    .contactx-left h2{
+      text-align:left;
+      margin-bottom:1rem;
+    }
+    .contactx-left h2::after{
+      margin-left:0;
+      margin-right:auto;
+    }
+    .contactx-intro{
+      max-width:560px;
+      margin-bottom:1.75rem;
+    }
+    .contactx-list{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+    .contactx-item{
+      display:flex;
+      gap:1rem;
+      align-items:flex-start;
+      padding:1rem 1rem;
+      border-radius:var(--radius);
+      background:#fff;
+      border:1px solid rgba(232,233,235,.9);
+      box-shadow:var(--shadow);
+    }
+    .contactx-icon{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      background:var(--surface-2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+    }
+    .contactx-icon svg{
+      width:20px;
+      height:20px;
+      stroke:var(--brand);
+      stroke-width:2.2;
+      fill:none;
+    }
+    .contactx-item a{
+      color:var(--brand);
+      text-decoration:none;
+      font-weight:800;
+    }
+    .contactx-item a:hover{ text-decoration:underline; }
+    .contactx-disclaimer{
+      margin-top:1.5rem;
+      color:var(--muted);
+      font-size:.95rem;
+      max-width:560px;
+    }
+
+    .contactx-form{
+      background:#fff;
+      border-radius:var(--radius);
+      border:1px solid rgba(232,233,235,.9);
+      box-shadow:var(--shadow);
+      padding:2rem;
+    }
+    .contactx-form h3{ margin-bottom:1rem; }
+
+    @media (max-width: 900px){
+      .contactx-wrap{ grid-template-columns:1fr; }
+      .contactx-left h2{ text-align:center; }
+      .contactx-left h2::after{ margin:1rem auto 0; }
+      .contactx-intro, .contactx-disclaimer{ margin-left:auto; margin-right:auto; text-align:center; }
+    }
+
+    /* =========================
+       Footer
+    ========================== */
+    footer{
+      background:var(--brand);
+      color:#fff;
+      padding:2rem 0;
+      text-align:center;
+    }
+    footer p{ color:rgba(255,255,255,.85); margin:0; }
+
+    /* =========================
+       Responsive (global)
+    ========================== */
+    @media (max-width: 768px){
+      :root{ --pad-x:1.25rem; }
+      .section{ padding:var(--section-y-sm) 0; }
+      .service-card--wide{
+        grid-column:span 1;
+        max-width:100%;
+      }
+      .language-switch{
+        top:.6rem;
+        right:1rem;
+      }
+      .lang-btn{ padding:.45rem .9rem; font-size:.9rem; }
+      .section-hero{ min-height:auto; padding:7rem 0 4rem; }
+      .hero-inner{ padding:0 1.25rem; }
+      .license{ margin-top:1rem; }
+      .whyx-media{ height:250px; }
+    }
+  </style>
+</head>
+
+<body class="lang-en">
+  <!-- Language Switch -->
+  <div class="language-switch" aria-label="Language Switch">
+    <button class="lang-btn active" id="en-btn" type="button">English</button>
+    <button class="lang-btn" id="cn-btn" type="button">中文</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="section section-hero" id="top">
+    <div class="hero-inner">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="en">Good Home Professional Construction Inc.</h1>
+          <h1 class="cn">Good Home Professional Construction Inc.</h1>
+
+          <p class="en">Licensed Construction Consultant | California</p>
+          <p class="cn">加州持牌建筑顾问 | 专业值得信赖</p>
+
+          <a href="#contact" class="btn en inline">Schedule Consultation</a>
+          <a href="#contact" class="btn cn inline">预约咨询</a>
+
+          <div class="license">
+            <span class="en">California License No.: 1066469</span>
+            <span class="cn">加州执照编号：1066469</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Advantages -->
+  <section class="section section--white" id="advantages">
+    <div class="container">
+      <h2 class="en">Our Core Advantages</h2>
+      <h2 class="cn">核心优势</h2>
+
+      <div class="grid-advantages">
+        <div class="card">
+          <h3 class="en">California Licensed</h3>
+          <h3 class="cn">加州持牌保障</h3>
+          <p class="en">We hold a valid California CSLB license (1066469), ensuring compliance with state regulations and industry standards.</p>
+          <p class="cn">持有加州CSLB执照（1066469），严格遵守州法规与行业标准，为项目提供合规保障。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="en">Beyond General Contractors</h3>
+          <h3 class="cn">非传统普通承包商</h3>
+          <p class="en">We provide unbiased professional consulting—not just execution—focused on your best interests and project success.</p>
+          <p class="cn">提供无偏见的专业咨询服务，而非单纯施工执行，始终以客户利益与项目成功为核心。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="en">Precise Technical Coordination</h3>
+          <h3 class="cn">精准技术协调</h3>
+          <p class="en">Seamless coordination between design, engineering, and construction teams to ensure design intent is realized on site.</p>
+          <p class="cn">无缝协调设计、工程与施工团队，确保设计意图在现场被精准落地执行。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Services (3 + 3 + 3 Card Grid) -->
+  <section class="section section--light" id="services">
+    <div class="container">
+      <h2 class="en">Our Professional Services</h2>
+      <h2 class="cn">专业服务体系</h2>
+
+      <p class="en center-narrow" style="margin:0 auto 2.2rem; max-width:860px;">
+        A technical consulting framework designed for clarity, alignment, and reliable execution.
+      </p>
+      <p class="cn center-narrow" style="margin:0 auto 2.2rem; max-width:860px;">
+        以技术顾问视角建立结构化体系，提升清晰度、一致性与落地可靠性。
+      </p>
+
+      <!-- Group 1 -->
+      <div class="service-group" style="margin-top:1.5rem;">
+        <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
+          <h3 class="en" style="margin-bottom:.35rem;">Technical Strategy &amp; System Definition</h3>
+          <h3 class="cn" style="margin-bottom:.35rem;">技术策略与系统定义</h3>
+          <p class="en" style="margin:0;">Establish technical clarity before execution begins.</p>
+          <p class="cn" style="margin:0;">在施工前建立清晰的技术范围与系统逻辑。</p>
+        </div>
+
+        <div class="grid-services">
+          <!-- 1 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Scope & System Architecture">
+            <div class="service-body">
+              <h4 class="en">Scope &amp; System Architecture</h4>
+              <h4 class="cn">范围与系统架构定义</h4>
+              <p class="en" style="margin-bottom:.4rem;">Clarifying technical scope and system relationships.</p>
+              <p class="en" style="margin:0;">Reducing ambiguity before implementation starts.</p>
+              <p class="cn" style="margin-bottom:.4rem;">明确技术范围与系统逻辑关系。</p>
+              <p class="cn" style="margin:0;">在落地前降低不确定性与误差。</p>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1664972988916-da679f400f2b?q=80&w=2027&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Feasibility & Constructability Review">
+            <div class="service-body">
+              <h4 class="en">Feasibility &amp; Constructability Review</h4>
+              <h4 class="cn">可行性与可施工性审查</h4>
+              <p class="en" style="margin-bottom:.4rem;">Reviewing drawings and details for on-site practicality.</p>
+              <p class="en" style="margin:0;">Identifying potential conflicts early.</p>
+              <p class="cn" style="margin-bottom:.4rem;">审查图纸与细节，评估现场可行性。</p>
+              <p class="cn" style="margin:0;">提前识别潜在冲突与落地风险。</p>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1705234384936-b75956114126?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Risk & Decision Advisory">
+            <div class="service-body">
+              <h4 class="en">Risk &amp; Decision Advisory</h4>
+              <h4 class="cn">风险识别与决策支持</h4>
+              <p class="en" style="margin-bottom:.4rem;">Providing structured insight for key project decisions.</p>
+              <p class="en" style="margin:0;">Improving decision clarity and traceability.</p>
+              <p class="cn" style="margin-bottom:.4rem;">以结构化视角支持关键节点决策。</p>
+              <p class="cn" style="margin:0;">提升决策清晰度与记录可追溯性。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 2 -->
+      <div class="service-group" style="margin-top:3rem;">
+        <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
+          <h3 class="en" style="margin-bottom:.35rem;">Technical Oversight &amp; Alignment</h3>
+          <h3 class="cn" style="margin-bottom:.35rem;">技术监督与项目对齐支持</h3>
+          <p class="en" style="margin:0;">Maintain technical consistency during active project stages.</p>
+          <p class="cn" style="margin:0;">在执行阶段提供一致性支持与结构化对齐。</p>
+        </div>
+
+        <div class="grid-services">
+          <!-- 4 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1714976327014-5c763e2ca168?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Interface & Cross-Discipline Coordination">
+            <div class="service-body">
+              <h4 class="en">Interface &amp; Cross-Discipline Coordination</h4>
+              <h4 class="cn">跨专业接口协调</h4>
+              <p class="en" style="margin-bottom:.4rem;">Facilitating alignment across architecture, structural, and MEP.</p>
+              <p class="en" style="margin:0;">Reducing miscommunication and rework risk.</p>
+              <p class="cn" style="margin-bottom:.4rem;">促进建筑、结构与机电系统的技术对齐。</p>
+              <p class="cn" style="margin:0;">减少沟通偏差与返工风险。</p>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1749883278588-837f6fc6c93c?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Technical Change Review & Progress Alignment">
+            <div class="service-body">
+              <h4 class="en">Technical Change Review &amp; Progress Alignment</h4>
+              <h4 class="cn">技术变更审查与进度对齐</h4>
+              <p class="en" style="margin-bottom:.4rem;">Reviewing technical changes for schedule and quality impacts.</p>
+              <p class="en" style="margin:0;">Providing preventive advisory recommendations.</p>
+              <p class="cn" style="margin-bottom:.4rem;">审查技术变更，识别对进度与质量的影响。</p>
+              <p class="cn" style="margin:0;">提供预防性建议，降低执行偏差。</p>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1608303588026-884930af2559?q=80&w=1800&auto=format&fit=crop"
+                 alt="Structured Technical Oversight">
+            <div class="service-body">
+              <h4 class="en">Structured Technical Oversight</h4>
+              <h4 class="cn">结构化技术监督支持</h4>
+              <p class="en" style="margin-bottom:.4rem;">Periodic reviews to keep scope and technical intent aligned.</p>
+              <p class="en" style="margin:0;">Supporting clear documentation and follow-up.</p>
+              <p class="cn" style="margin-bottom:.4rem;">阶段性审查，确保范围与技术意图一致。</p>
+              <p class="cn" style="margin:0;">支持形成清晰记录并推动跟进。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 3 -->
+      <div class="service-group" style="margin-top:3rem;">
+        <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
+          <h3 class="en" style="margin-bottom:.35rem;">Field Integration &amp; Execution Support</h3>
+          <h3 class="cn" style="margin-bottom:.35rem;">现场整合与执行支持</h3>
+          <p class="en" style="margin:0;">Help ensure technical intent is reflected accurately on site.</p>
+          <p class="cn" style="margin:0;">协助确保技术意图在现场执行中准确体现。</p>
+        </div>
+
+        <div class="grid-services">
+          <!-- 7 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1628900941064-ba8df8b51e4a?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Design Intent to Field Alignment">
+            <div class="service-body">
+              <h4 class="en">Design Intent to Field Alignment</h4>
+              <h4 class="cn">设计意图落地对齐</h4>
+              <p class="en" style="margin-bottom:.4rem;">Verifying key details are implemented consistently.</p>
+              <p class="en" style="margin:0;">Maintaining alignment with approved documentation.</p>
+              <p class="cn" style="margin-bottom:.4rem;">核对关键细节，确保落地一致。</p>
+              <p class="cn" style="margin:0;">保持与批准文件的实施对齐。</p>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2487&auto=format&fit=crop"
+                 alt="On-Site Technical Observation & Reporting">
+            <div class="service-body">
+              <h4 class="en">On-Site Technical Observation &amp; Reporting</h4>
+              <h4 class="cn">现场技术观察与报告</h4>
+              <p class="en" style="margin-bottom:.4rem;">Structured site observations with documented feedback.</p>
+              <p class="en" style="margin:0;">Supporting issue tracking and follow-up.</p>
+              <p class="cn" style="margin-bottom:.4rem;">结构化现场观察并形成技术记录。</p>
+              <p class="cn" style="margin:0;">支持问题追踪与后续跟进。</p>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="service-card">
+            <img class="service-img"
+                 src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2340&auto=format&fit=crop"
+                 alt="Closeout & System Review Support">
+            <div class="service-body">
+              <h4 class="en">Closeout &amp; System Review Support</h4>
+              <h4 class="cn">交付前系统审查支持</h4>
+              <p class="en" style="margin-bottom:.4rem;">Reviewing systems prior to handover for technical consistency.</p>
+              <p class="en" style="margin:0;">Helping confirm readiness for closeout.</p>
+              <p class="cn" style="margin-bottom:.4rem;">交付前审查系统，确认技术一致性。</p>
+              <p class="cn" style="margin:0;">协助确认交付准备度与收尾清晰度。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boundary Note -->
+      <div style="margin-top:2.5rem;">
+        <p class="en" style="max-width:980px; margin:0 auto; font-size:.98rem;">
+          Note: Our services are advisory and oversight-based. We do not directly manage contractor pricing, payment structures, or contractual negotiations.
+        </p>
+        <p class="cn" style="max-width:980px; margin:0 auto; font-size:.98rem;">
+          注：本公司的服务属于顾问与监督支持性质，不直接参与承包商定价、付款结构或合同谈判。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: Consulting Basis -->
+  <section class="section section--bg-cover" id="consulting-basis">
+    <div class="container">
+      <div class="center-narrow">
+        <h2 class="en">Consulting Basis</h2>
+        <h2 class="cn">咨询计费方式</h2>
+
+        <p class="en">
+          Our consulting services are provided on an <strong>Hourly Consulting Basis</strong> — so you only pay for the time and expertise your project truly needs.
+        </p>
+        <p class="cn">
+          我们的咨询服务采用<strong>按小时计费</strong>模式——您只需为项目真正需要的专业时间与能力付费。
+        </p>
+
+        <p class="en">
+          This approach keeps your scope flexible, improves cost control, and avoids paying for unnecessary fixed packages.
+        </p>
+        <p class="cn">
+          该方式可保持范围灵活、成本可控，并避免固定套餐带来的不必要支出。
+        </p>
+      </div>
+
+      <div class="grid-advantages" style="margin-top:2rem;">
+        <div class="card">
+          <h3 class="en">Transparent & Fair</h3>
+          <h3 class="cn">透明且公平</h3>
+          <p class="en">Clear time tracking with a straightforward billing structure — no hidden markups.</p>
+          <p class="cn">时间记录清晰、计费结构直接 — 无隐性加价与模糊项。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="en">Flexible Scope Control</h3>
+          <h3 class="cn">范围灵活可控</h3>
+          <p class="en">Scale support up or down as priorities change, without being locked into a rigid package.</p>
+          <p class="cn">随项目优先级变化可增可减，不被固定套餐绑定。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="en">Documented Service Records</h3>
+          <h3 class="cn">服务记录可追溯</h3>
+          <p class="en">We provide clear notes, summaries, and deliverables so every hour supports progress.</p>
+          <p class="cn">提供清晰的说明、摘要与交付物，让每一小时都真正推动进展。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Why Work With Us -->
+  <section class="section section--light" id="why-work-with-us">
+    <div class="container">
+      <div class="whyx-wrap">
+
+        <div class="whyx-media">
+          <img
+            src="https://images.unsplash.com/photo-1608303588026-884930af2559?q=80&w=1800&auto=format&fit=crop"
+            alt="Project planning and coordination"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="whyx-content">
+          <h2 class="en">Why Work With Us</h2>
+          <h2 class="cn">为什么选择我们</h2>
+
+          <p class="whyx-lead en">
+            As a California-licensed contractor, we bring practical jobsite awareness and coordination discipline.
+            Our consulting is designed to improve clarity, reduce costly surprises, and support accountable execution.
+          </p>
+          <p class="whyx-lead cn">
+            作为加州持牌承包商，我们具备扎实的现场经验与严谨的协调管理能力。
+            咨询服务旨在提升清晰度、减少意外成本，并支持可追溯、可负责的落地执行。
+          </p>
+
+          <div class="whyx-list">
+            <div class="whyx-point">
+              <div class="whyx-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <h4 class="en">Independent advisory mindset</h4>
+                <h4 class="cn">独立顾问视角</h4>
+                <p class="en">Focus on outcomes, documentation, and alignment.</p>
+                <p class="cn">以结果、文档与一致性为核心，帮助做正确决策。</p>
+              </div>
+            </div>
+
+            <div class="whyx-point">
+              <div class="whyx-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <h4 class="en">Clear scope and traceable notes</h4>
+                <h4 class="cn">范围清晰、记录可追溯</h4>
+                <p class="en">Support decisions with structured deliverables.</p>
+                <p class="cn">用结构化交付物支撑沟通与决策，减少遗漏与扯皮。</p>
+              </div>
+            </div>
+
+            <div class="whyx-point">
+              <div class="whyx-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <h4 class="en">Coordination across teams</h4>
+                <h4 class="cn">跨团队协同</h4>
+                <p class="en">Reduce miscommunication and rework.</p>
+                <p class="cn">减少误解与返工，提高执行效率与质量稳定性。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="whyx-cta">
+            <a class="btn en inline" href="#contact">Schedule a Free 30-Minute Consultation</a>
+            <a class="btn cn inline" href="#contact">预约免费 30 分钟咨询</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Process  ✅ Added section background class -->
+  <section class="section section--process-bg" id="process">
+    <div class="container">
+      <h2 class="en">Our Working Process</h2>
+      <h2 class="cn">我们的工作流程</h2>
+
+      <div class="process-flow">
+        <div class="process-node">
+          <div class="process-dot">1</div>
+          <h4 class="en">Initial Consultation</h4>
+          <h4 class="cn">初步咨询</h4>
+          <p class="en">Understand goals, constraints, scope, and decision priorities.</p>
+          <p class="cn">了解目标、限制条件、范围与决策优先级。</p>
+        </div>
+
+        <div class="process-node">
+          <div class="process-dot">2</div>
+          <h4 class="en">Strategy Development</h4>
+          <h4 class="cn">策略制定</h4>
+          <p class="en">Develop a practical plan aligned with schedule, quality, and budget.</p>
+          <p class="cn">制定可落地的策略方案，对齐工期、质量与预算。</p>
+        </div>
+
+        <div class="process-node">
+          <div class="process-dot">3</div>
+          <h4 class="en">Implementation &amp; Oversight</h4>
+          <h4 class="cn">执行与监督</h4>
+          <p class="en">Coordinate stakeholders and reduce risks through structured oversight.</p>
+          <p class="cn">结构化监督协同各方，降低风险与返工。</p>
+        </div>
+
+        <div class="process-node">
+          <div class="process-dot">4</div>
+          <h4 class="en">Review &amp; Follow-up</h4>
+          <h4 class="cn">复盘与跟进</h4>
+          <p class="en">Review outcomes, document decisions, and support next steps.</p>
+          <p class="cn">复盘成果、记录关键决策，并支持下一阶段推进。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: Contact -->
+  <section class="section section--light" id="contact">
+    <div class="container">
+      <div class="contactx-wrap">
+
+        <div class="contactx-left">
+          <h2 class="en">Get In Touch</h2>
+          <h2 class="cn">联系我们</h2>
+
+          <p class="contactx-intro en">
+            Tell us about your project. We’ll review your information and respond with next steps and a recommended approach.
+          </p>
+          <p class="contactx-intro cn">
+            请介绍您的项目情况。我们会进行审核，并提供下一步建议与推荐的推进方式。
+          </p>
+
+          <div class="contactx-list">
+            <div class="contactx-item">
+              <div class="contactx-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M22 16.9v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.72c.12.86.3 1.7.54 2.5a2 2 0 0 1-.45 2.11L9.1 10.9a16 16 0 0 0 4 4l1.57-1.1a2 2 0 0 1 2.11-.45c.8.24 1.64.42 2.5.54A2 2 0 0 1 22 16.9Z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="en">Phone</h4>
+                <h4 class="cn">电话</h4>
+                <a class="en inline" href="tel:5105082811">510-508-2811</a>
+                <a class="cn inline" href="tel:5105082811">510-508-2811</a>
+              </div>
+            </div>
+
+            <div class="contactx-item">
+              <div class="contactx-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+                  <path d="m22 6-10 7L2 6"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="en">Email</h4>
+                <h4 class="cn">邮箱</h4>
+                <a class="en inline" href="mailto:allen@goodhomepro.com">allen@goodhomepro.com</a>
+                <a class="cn inline" href="mailto:allen@goodhomepro.com">allen@goodhomepro.com</a>
+              </div>
+            </div>
+
+            <div class="contactx-item">
+              <div class="contactx-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2 20 6v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4Z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="en">License</h4>
+                <h4 class="cn">执照编号</h4>
+                <p class="en">CA License #1066469</p>
+                <p class="cn">加州执照编号：1066469</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="contactx-disclaimer en">
+            Note: Submitting this form does not create a contractor-client relationship. We will confirm scope and engagement terms before any services begin.
+          </p>
+          <p class="contactx-disclaimer cn">
+            注：提交此表单并不构成承包商-客户关系。我们会在服务开始前确认工作范围与合作条款。
+          </p>
+        </div>
+
+        <div class="contactx-form">
+          <h3 class="en">Schedule a Consultation</h3>
+          <h3 class="cn">预约咨询</h3>
+
+<form id="contact-form"
+      name="consultation"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field">
+
+  <!-- Netlify required hidden fields -->
+  <input type="hidden" name="form-name" value="consultation" />
+  <p style="display:none;">
+    <label>Don’t fill this out: <input name="bot-field" /></label>
+  </p>
+
+  <div class="form-group">
+    <label class="en" for="name">Full Name</label>
+    <label class="cn" for="name">姓名</label>
+    <input id="name" name="name" type="text" required />
+  </div>
+
+  <div class="form-group">
+    <label class="en" for="email">Email Address</label>
+    <label class="cn" for="email">电子邮箱</label>
+    <input id="email" name="email" type="email" required />
+  </div>
+
+  <div class="form-group">
+    <label class="en" for="phone">Phone Number</label>
+    <label class="cn" for="phone">联系电话</label>
+    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+  </div>
+
+  <div class="form-group">
+    <label class="en" for="location">Project Location</label>
+    <label class="cn" for="location">项目地点</label>
+    <input id="location" name="location" type="text" required />
+  </div>
+
+  <div class="form-group">
+    <label class="en" for="project-stage">Project Stage</label>
+    <label class="cn" for="project-stage">项目阶段</label>
+    <select id="project-stage" name="projectStage" required>
+      <option value="" selected disabled data-en="Select..." data-cn="请选择...">Select...</option>
+      <option value="pre" data-en="Pre-construction / Planning" data-cn="施工前 / 规划阶段">Pre-construction / Planning</option>
+      <option value="in" data-en="In construction" data-cn="施工中">In construction</option>
+      <option value="unsure" data-en="Not sure yet" data-cn="暂不确定">Not sure yet</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="en" for="message">Project Details / Message</label>
+    <label class="cn" for="message">项目详情 / 留言</label>
+    <textarea id="message" name="message" required></textarea>
+  </div>
+
+  <button class="btn en inline" type="submit">Send Inquiry</button>
+  <button class="btn cn inline" type="submit">提交咨询</button>
+
+  <div id="form-message"></div>
+</form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="en">© 2026 Good Home Professional Construction Inc. All rights reserved. | CSLB License No.: 1066469</p>
+      <p class="cn">© 2026 Good Home Professional Construction Inc. 版权所有。| 加州执照编号：1066469</p>
+    </div>
+  </footer>
+
+  <script>
+    // Language switch
+    const enBtn = document.getElementById('en-btn');
+    const cnBtn = document.getElementById('cn-btn');
+
+    function setLang(lang){
+      if(lang === 'cn'){
+        document.body.classList.remove('lang-en');
+        document.body.classList.add('lang-cn');
+        cnBtn.classList.add('active');
+        enBtn.classList.remove('active');
+        document.documentElement.setAttribute('lang', 'zh');
+      }else{
+        document.body.classList.remove('lang-cn');
+        document.body.classList.add('lang-en');
+        enBtn.classList.add('active');
+        cnBtn.classList.remove('active');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+
+      // ✅ Sync Project Stage dropdown language
+      syncProjectStageOptions(lang);
+    }
+
+    function syncProjectStageOptions(lang){
+      const sel = document.getElementById('project-stage');
+      if(!sel) return;
+
+      const isCN = (lang === 'cn');
+      [...sel.options].forEach(opt => {
+        const text = isCN ? opt.getAttribute('data-cn') : opt.getAttribute('data-en');
+        if(text) opt.textContent = text;
+      });
+    }
+
+    enBtn.addEventListener('click', () => setLang('en'));
+    cnBtn.addEventListener('click', () => setLang('cn'));
+
+    // Contact form submit (demo)
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Netlify Forms AJAX submit (stay on the same page)
+      const formData = new FormData(contactForm);
+
+      try {
+        const resp = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+
+        if (!resp.ok) throw new Error('Network response was not ok');
+
+        contactForm.reset();
+        const isCN = document.body.classList.contains('lang-cn');
+        formMessage.textContent = isCN ? '已收到，我们会尽快回复。' : 'Thanks — we’ll reply soon.';
+        formMessage.classList.add('success');
+
+        setTimeout(() => {
+          formMessage.classList.remove('success');
+          formMessage.textContent = '';
+        }, 5000);
+      } catch (err) {
+        const isCN = document.body.classList.contains('lang-cn');
+        formMessage.textContent = isCN ? '提交失败，请稍后再试。' : 'Submit failed. Please try again.';
+        formMessage.classList.add('error');
+
+        setTimeout(() => {
+          formMessage.classList.remove('error');
+          formMessage.textContent = '';
+        }, 5000);
+      }
+    });
+
+// Default language
+    setLang('en');
+  </script>
+</body>
+</html>
