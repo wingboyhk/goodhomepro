@@ -32,7 +32,7 @@
       --surface-2:#F9FAFB;
 
       --container:1200px;
-      --pad-x:2rem; /* 其他区域保留内边距，仅Hero区域取消 */
+      --pad-x:2rem;
 
       --radius:10px;
       --shadow:0 2px 12px rgba(0,0,0,0.06);
@@ -89,7 +89,6 @@
       align-items:center;
       justify-content:center;
       gap:.5rem;
-      /* 核心修改：添加透明效果，背景色降低不透明度 */
       background: rgba(42, 59, 76, 0.9);
       color:#fff;
       padding:1rem 1.6rem;
@@ -101,16 +100,19 @@
       transition:transform .18s ease, background-color .18s ease, opacity .18s ease;
       font-size:1rem;
       white-space:nowrap;
-      /* 基础透明值，hover时恢复 */
       opacity: 0.95;
     }
     .btn:hover{
-      /* hover时提高不透明度，增强交互反馈 */
       background: rgba(30, 42, 56, 0.95);
       transform:translateY(-1px);
       opacity: 1;
     }
     .btn:active{ transform:translateY(0); }
+    .btn[disabled]{
+      opacity:.72;
+      cursor:not-allowed;
+      transform:none !important;
+    }
 
     /* =========================
        Language System
@@ -149,47 +151,42 @@
     .section--dark h2::after{ background:#fff; }
 
     /* =========================
-       Fixed Language Switch 【核心修改：添加透明效果】
+       Fixed Language Switch
     ========================== */
     .language-switch{
       position:fixed;
       top:1rem;
-      right:2rem; /* 调整右侧间距，不贴边 */
+      right:2rem;
       z-index:1000;
       display:flex;
-      gap:.25rem; /* 缩小按钮间距 */
-      /* 语言按钮容器添加透明效果 */
+      gap:.25rem;
       background: rgba(42, 59, 76, 0.85);
-      border-radius:6px; /* 小圆角 */
+      border-radius:6px;
       padding:.2rem;
-      box-shadow:none; /* 取消阴影 */
+      box-shadow:none;
       transition: background .18s ease;
     }
     .language-switch:hover {
-      /* hover时略微提高不透明度 */
       background: rgba(42, 59, 76, 0.95);
     }
     .lang-btn{
-      padding:.4rem .8rem; /* 缩小按钮尺寸 */
+      padding:.4rem .8rem;
       background:transparent;
-      color:#fff; /* 白色文字 */
+      color:#fff;
       border:none;
       border-radius:4px;
       cursor:pointer;
       font-weight:700;
       transition:background .18s ease, color .18s ease, opacity .18s ease;
       font-size:.9rem;
-      /* 语言按钮基础透明值 */
       opacity: 0.9;
     }
     .lang-btn:hover {
-      /* hover时完全不透明 */
       opacity: 1;
     }
     .lang-btn.active{
-      /* 激活态按钮添加轻微透明 */
       background: rgba(255, 255, 255, 0.95);
-      color:var(--brand); /* 激活态深色文字 */
+      color:var(--brand);
     }
 
     /* =========================
@@ -214,7 +211,6 @@
       box-shadow:0 10px 26px rgba(0,0,0,.08);
     }
 
-    /* Services */
     .grid-services{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
@@ -245,14 +241,12 @@
       margin:0 auto;
     }
 
-    /* Consultation / Authority */
     .center-narrow{
       max-width:860px;
       margin:0 auto;
       text-align:center;
     }
 
-    /* Process (legacy) */
     .grid-process{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
@@ -281,12 +275,6 @@
       font-size:1.35rem;
     }
 
-    /* =========================
-       ✅ NEW: Our Working Process section background (as requested)
-       - Background image applied to the whole #process section
-       - Dark overlay for readability
-       - Headings switched to white
-    ========================== */
     #process.section--process-bg{
       background:
         linear-gradient(rgba(0,0,0,.33), rgba(0,0,0,.33)),
@@ -299,9 +287,6 @@
     #process.section--process-bg h2::after{ background:#fff; }
     #process.section--process-bg p{ color: rgba(255,255,255,.86); }
 
-    /* =========================
-       Process Flow (Timeline Style)  ✅ Updated: paper texture cards
-    ========================== */
     .process-flow{
       position: relative;
       margin-top: 2rem;
@@ -311,7 +296,6 @@
       align-items: stretch;
     }
 
-    /* 中間連線 + 箭嘴（桌面版） */
     .process-flow::before{
       content:"";
       position:absolute;
@@ -319,7 +303,7 @@
       right: 6%;
       top: 100px;
       height: 5px;
-      background: rgba(255,255,255,.55); /* ✅ make line visible on dark bg */
+      background: rgba(255,255,255,.55);
       z-index: 0;
     }
     .process-flow::after{
@@ -329,28 +313,24 @@
       top: 33px;
       width: 0;
       height: 0;
-      border-left: 10px solid rgba(255,255,255,.55); /* ✅ make arrow visible */
+      border-left: 10px solid rgba(255,255,255,.55);
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
       z-index: 0;
     }
 
-    /* Step cards */
     .process-node{
       position: relative;
       z-index: 1;
-
       background:
         linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)),
         url("https://images.unsplash.com/photo-1565300667498-2843c56b4603?q=80&w=1330&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-
       border: 1px solid rgba(0,0,0,.06);
       border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.18); /* a bit stronger for dark bg */
-
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
       padding: 2rem 1.6rem 1.8rem;
       transition: transform .25s ease, box-shadow .25s ease;
     }
@@ -372,11 +352,9 @@
       font-weight: 900;
       font-size: 1.25rem;
       margin: 0 auto 1.1rem;
-
       box-shadow:
         0 6px 14px rgba(0,0,0,.18),
         inset 0 0 0 3px rgba(255,255,255,.15);
-
       position: relative;
     }
     .process-dot::after{
@@ -427,15 +405,14 @@
       }
     }
 
-    /* ✅ Keep section background, but force card text back to dark/gray */
     #process.section--process-bg .process-node h4{
       color: #2A3B4C !important;
     }
 
-#process.section--process-bg .process-node p{
-  color: #6B7280 !important; /* same as --muted */
-  opacity: 1 !important;
-}
+    #process.section--process-bg .process-node p{
+      color: #6B7280 !important;
+      opacity: 1 !important;
+    }
 
     /* =========================
        Form (shared)
@@ -468,27 +445,39 @@
     select:invalid{ color:var(--muted); }
     option{ color:var(--ink); }
 
-    #form-message{
+    .hidden-field{
+      position:absolute !important;
+      left:-9999px !important;
+      width:1px !important;
+      height:1px !important;
+      overflow:hidden !important;
+    }
+
+    .form-alert{
       margin-top:1rem;
-      padding:1rem;
+      padding:1rem 1.1rem;
       border-radius:10px;
       display:none;
       font-weight:700;
+      line-height:1.5;
+      border:1px solid transparent;
     }
-    #form-message.success{
+    .form-alert.success{
       display:block;
-      background:#d4edda;
-      color:#155724;
+      background:#ecfdf3;
+      color:#067647;
+      border-color:#abefc6;
     }
 
-    #form-message.error{
+    .form-alert.error{
       display:block;
-      background:#f8d7da;
-      color:#721c24;
+      background:#fef3f2;
+      color:#b42318;
+      border-color:#fecdca;
     }
 
     /* =========================
-       Hero 【核心修改：完全贴左+紧凑排版】
+       Hero
     ========================== */
     .section-hero{
       min-height:100vh;
@@ -504,7 +493,7 @@
     }
     .hero-inner{
       width:100%;
-      padding:0 2rem; /* 仅保留极小的左侧间距，贴近屏幕边缘 */
+      padding:0 2rem;
     }
     .section-hero .container{
       max-width:100%;
@@ -534,9 +523,6 @@
       text-align: left;
     }
 
-    /* =========================
-       Consulting Basis - Background Style (New)
-    ========================== */
     .section--bg-cover{
       position: relative;
       color: #fff;
@@ -564,9 +550,6 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.28);
     }
 
-    /* =========================
-       Why Work With Us (whyx-)
-    ========================== */
     .whyx-wrap{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -662,9 +645,6 @@
       .whyx-cta{ justify-content:center; margin-top:1.75rem; }
     }
 
-    /* =========================
-       Contact (contactx-)
-    ========================== */
     .contactx-wrap{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -745,9 +725,6 @@
       .contactx-intro, .contactx-disclaimer{ margin-left:auto; margin-right:auto; text-align:center; }
     }
 
-    /* =========================
-       Footer
-    ========================== */
     footer{
       background:var(--brand);
       color:#fff;
@@ -756,9 +733,6 @@
     }
     footer p{ color:rgba(255,255,255,.85); margin:0; }
 
-    /* =========================
-       Responsive (global)
-    ========================== */
     @media (max-width: 768px){
       :root{ --pad-x:1.25rem; }
       .section{ padding:var(--section-y-sm) 0; }
@@ -780,13 +754,11 @@
 </head>
 
 <body class="lang-en">
-  <!-- Language Switch -->
   <div class="language-switch" aria-label="Language Switch">
     <button class="lang-btn active" id="en-btn" type="button">English</button>
     <button class="lang-btn" id="cn-btn" type="button">中文</button>
   </div>
 
-  <!-- HERO -->
   <section class="section section-hero" id="top">
     <div class="hero-inner">
       <div class="container">
@@ -809,7 +781,6 @@
     </div>
   </section>
 
-  <!-- SECTION: Advantages -->
   <section class="section section--white" id="advantages">
     <div class="container">
       <h2 class="en">Our Core Advantages</h2>
@@ -840,7 +811,6 @@
     </div>
   </section>
 
-  <!-- SECTION: Services (3 + 3 + 3 Card Grid) -->
   <section class="section section--light" id="services">
     <div class="container">
       <h2 class="en">Our Professional Services</h2>
@@ -853,7 +823,6 @@
         以技术顾问视角建立结构化体系，提升清晰度、一致性与落地可靠性。
       </p>
 
-      <!-- Group 1 -->
       <div class="service-group" style="margin-top:1.5rem;">
         <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
           <h3 class="en" style="margin-bottom:.35rem;">Technical Strategy &amp; System Definition</h3>
@@ -863,7 +832,6 @@
         </div>
 
         <div class="grid-services">
-          <!-- 1 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -878,7 +846,6 @@
             </div>
           </div>
 
-          <!-- 2 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1664972988916-da679f400f2b?q=80&w=2027&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -893,7 +860,6 @@
             </div>
           </div>
 
-          <!-- 3 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1705234384936-b75956114126?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -910,7 +876,6 @@
         </div>
       </div>
 
-      <!-- Group 2 -->
       <div class="service-group" style="margin-top:3rem;">
         <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
           <h3 class="en" style="margin-bottom:.35rem;">Technical Oversight &amp; Alignment</h3>
@@ -920,7 +885,6 @@
         </div>
 
         <div class="grid-services">
-          <!-- 4 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1714976327014-5c763e2ca168?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -935,7 +899,6 @@
             </div>
           </div>
 
-          <!-- 5 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1749883278588-837f6fc6c93c?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -950,7 +913,6 @@
             </div>
           </div>
 
-          <!-- 6 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1608303588026-884930af2559?q=80&w=1800&auto=format&fit=crop"
@@ -967,7 +929,6 @@
         </div>
       </div>
 
-      <!-- Group 3 -->
       <div class="service-group" style="margin-top:3rem;">
         <div class="service-group__head" style="text-align:left; margin-bottom:1rem;">
           <h3 class="en" style="margin-bottom:.35rem;">Field Integration &amp; Execution Support</h3>
@@ -977,7 +938,6 @@
         </div>
 
         <div class="grid-services">
-          <!-- 7 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1628900941064-ba8df8b51e4a?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -992,7 +952,6 @@
             </div>
           </div>
 
-          <!-- 8 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2487&auto=format&fit=crop"
@@ -1007,7 +966,6 @@
             </div>
           </div>
 
-          <!-- 9 -->
           <div class="service-card">
             <img class="service-img"
                  src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2340&auto=format&fit=crop"
@@ -1024,7 +982,6 @@
         </div>
       </div>
 
-      <!-- Boundary Note -->
       <div style="margin-top:2.5rem;">
         <p class="en" style="max-width:980px; margin:0 auto; font-size:.98rem;">
           Note: Our services are advisory and oversight-based. We do not directly manage contractor pricing, payment structures, or contractual negotiations.
@@ -1037,7 +994,6 @@
     </div>
   </section>
 
-  <!-- SECTION: Consulting Basis -->
   <section class="section section--bg-cover" id="consulting-basis">
     <div class="container">
       <div class="center-narrow">
@@ -1084,7 +1040,6 @@
     </div>
   </section>
 
-  <!-- SECTION: Why Work With Us -->
   <section class="section section--light" id="why-work-with-us">
     <div class="container">
       <div class="whyx-wrap">
@@ -1158,7 +1113,6 @@
     </div>
   </section>
 
-  <!-- SECTION: Process  ✅ Added section background class -->
   <section class="section section--process-bg" id="process">
     <div class="container">
       <h2 class="en">Our Working Process</h2>
@@ -1197,11 +1151,9 @@
           <p class="cn">复盘成果、记录关键决策，并支持下一阶段推进。</p>
         </div>
       </div>
-
     </div>
   </section>
 
-  <!-- SECTION: Contact -->
   <section class="section section--light" id="contact">
     <div class="container">
       <div class="contactx-wrap">
@@ -1275,68 +1227,73 @@
           <h3 class="en">Schedule a Consultation</h3>
           <h3 class="cn">预约咨询</h3>
 
-<form id="contact-form"
-      name="consultation"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field">
+          <form id="contact-form"
+                name="consultation"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field">
 
-  <!-- Netlify required hidden fields -->
-  <input type="hidden" name="form-name" value="consultation" />
+            <input type="hidden" name="form-name" value="consultation" />
 
-  <p style="display:none;">
-    <label>Don’t fill this out: <input name="bot-field" /></label>
-  </p>
+            <p class="hidden-field">
+              <label>Don’t fill this out: <input name="bot-field" /></label>
+            </p>
 
-  <div class="form-group">
-    <label class="en" for="name">Full Name</label>
-    <label class="cn" for="name">姓名</label>
-    <input id="name" name="name" type="text" autocomplete="name" required />
-  </div>
+            <div class="form-group">
+              <label class="en" for="name">Full Name</label>
+              <label class="cn" for="name">姓名</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
+            </div>
 
-  <div class="form-group">
-    <label class="en" for="email">Email Address</label>
-    <label class="cn" for="email">电子邮箱</label>
-    <input id="email" name="email" type="email" autocomplete="email" required />
-  </div>
+            <div class="form-group">
+              <label class="en" for="email">Email Address</label>
+              <label class="cn" for="email">电子邮箱</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
 
-  <div class="form-group">
-    <label class="en" for="phone">Phone Number</label>
-    <label class="cn" for="phone">联系电话</label>
-    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
-  </div>
+            <div class="form-group">
+              <label class="en" for="phone">Phone Number</label>
+              <label class="cn" for="phone">联系电话</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+            </div>
 
-  <div class="form-group">
-    <label class="en" for="location">Project Location</label>
-    <label class="cn" for="location">项目地点</label>
-    <input id="location" name="location" type="text" autocomplete="address-level2" required />
-  </div>
+            <div class="form-group">
+              <label class="en" for="location">Project Location</label>
+              <label class="cn" for="location">项目地点</label>
+              <input id="location" name="location" type="text" autocomplete="address-level2" required />
+            </div>
 
-  <div class="form-group">
-    <label class="en" for="project-stage">Project Stage</label>
-    <label class="cn" for="project-stage">项目阶段</label>
-    <select id="project-stage" name="projectStage" required>
-      <option value="" selected disabled data-en="Select..." data-cn="请选择...">Select...</option>
-      <option value="Pre-construction / Planning" data-en="Pre-construction / Planning" data-cn="施工前 / 规划阶段">Pre-construction / Planning</option>
-      <option value="In construction" data-en="In construction" data-cn="施工中">In construction</option>
-      <option value="Not sure yet" data-en="Not sure yet" data-cn="暂不确定">Not sure yet</option>
-    </select>
-  </div>
+            <div class="form-group">
+              <label class="en" for="project-stage">Project Stage</label>
+              <label class="cn" for="project-stage">项目阶段</label>
+              <select id="project-stage" name="projectStage" required>
+                <option value="" selected disabled data-en="Select..." data-cn="请选择...">Select...</option>
+                <option value="Pre-construction / Planning" data-en="Pre-construction / Planning" data-cn="施工前 / 规划阶段">Pre-construction / Planning</option>
+                <option value="In construction" data-en="In construction" data-cn="施工中">In construction</option>
+                <option value="Not sure yet" data-en="Not sure yet" data-cn="暂不确定">Not sure yet</option>
+              </select>
+            </div>
 
-  <div class="form-group">
-    <label class="en" for="message">Project Details / Message</label>
-    <label class="cn" for="message">项目详情 / 留言</label>
-    <textarea id="message" name="message" required></textarea>
-  </div>
+            <div class="form-group">
+              <label class="en" for="message">Project Details / Message</label>
+              <label class="cn" for="message">项目详情 / 留言</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
 
-  <!-- 只保留一个真正 submit 按钮 -->
-  <button class="btn" id="submit-btn" type="submit">
-    <span class="en">Send Inquiry</span>
-    <span class="cn">提交咨询</span>
-  </button>
+            <!-- Optional: Netlify reCAPTCHA -->
+            <!--
+            <div class="form-group">
+              <div data-netlify-recaptcha="true"></div>
+            </div>
+            -->
 
-  <div id="form-message" role="status" aria-live="polite"></div>
-</form>
+            <button class="btn" id="submit-btn" type="submit">
+              <span class="en">Send Inquiry</span>
+              <span class="cn">提交咨询</span>
+            </button>
+
+            <div id="form-message" class="form-alert" role="status" aria-live="polite"></div>
+          </form>
         </div>
 
       </div>
@@ -1350,131 +1307,123 @@
     </div>
   </footer>
 
-<script>
-  // Language switch
-  const enBtn = document.getElementById('en-btn');
-  const cnBtn = document.getElementById('cn-btn');
+  <script>
+    const enBtn = document.getElementById('en-btn');
+    const cnBtn = document.getElementById('cn-btn');
 
-  function setLang(lang) {
-    if (lang === 'cn') {
-      document.body.classList.remove('lang-en');
-      document.body.classList.add('lang-cn');
-      cnBtn.classList.add('active');
-      enBtn.classList.remove('active');
-      document.documentElement.setAttribute('lang', 'zh');
-    } else {
-      document.body.classList.remove('lang-cn');
-      document.body.classList.add('lang-en');
-      enBtn.classList.add('active');
-      cnBtn.classList.remove('active');
-      document.documentElement.setAttribute('lang', 'en');
+    function setLang(lang) {
+      if (lang === 'cn') {
+        document.body.classList.remove('lang-en');
+        document.body.classList.add('lang-cn');
+        cnBtn.classList.add('active');
+        enBtn.classList.remove('active');
+        document.documentElement.setAttribute('lang', 'zh');
+      } else {
+        document.body.classList.remove('lang-cn');
+        document.body.classList.add('lang-en');
+        enBtn.classList.add('active');
+        cnBtn.classList.remove('active');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+
+      syncProjectStageOptions(lang);
     }
 
-    syncProjectStageOptions(lang);
-  }
+    function syncProjectStageOptions(lang) {
+      const sel = document.getElementById('project-stage');
+      if (!sel) return;
 
-  function syncProjectStageOptions(lang) {
-    const sel = document.getElementById('project-stage');
-    if (!sel) return;
-
-    const isCN = lang === 'cn';
-    [...sel.options].forEach(opt => {
-      const text = isCN ? opt.getAttribute('data-cn') : opt.getAttribute('data-en');
-      if (text) opt.textContent = text;
-    });
-  }
-
-  enBtn.addEventListener('click', () => setLang('en'));
-  cnBtn.addEventListener('click', () => setLang('cn'));
-
-  // Encode helper for Netlify
-  function encode(data) {
-    return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
-  }
-
-  // Contact form submit
-  const contactForm = document.getElementById('contact-form');
-  const formMessage = document.getElementById('form-message');
-  const submitBtn = document.getElementById('submit-btn');
-
-  function showMessage(type, text) {
-    formMessage.className = '';
-    formMessage.textContent = '';
-    formMessage.classList.add(type);
-    formMessage.textContent = text;
-    formMessage.style.display = 'block';
-  }
-
-  function clearMessage() {
-    formMessage.className = '';
-    formMessage.textContent = '';
-    formMessage.style.display = 'none';
-  }
-
-  function setSubmittingState(isSubmitting) {
-    const isCN = document.body.classList.contains('lang-cn');
-
-    submitBtn.disabled = isSubmitting;
-    submitBtn.style.opacity = isSubmitting ? '0.7' : '';
-    submitBtn.style.cursor = isSubmitting ? 'not-allowed' : '';
-
-    const enSpan = submitBtn.querySelector('.en');
-    const cnSpan = submitBtn.querySelector('.cn');
-
-    if (enSpan) enSpan.textContent = isSubmitting ? 'Sending...' : 'Send Inquiry';
-    if (cnSpan) cnSpan.textContent = isSubmitting ? '提交中...' : '提交咨询';
-  }
-
-  if (contactForm) {
-    contactForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      clearMessage();
-      setSubmittingState(true);
-
-      const formData = new FormData(contactForm);
-      const data = {};
-
-      formData.forEach((value, key) => {
-        data[key] = value;
+      const isCN = lang === 'cn';
+      [...sel.options].forEach(opt => {
+        const text = isCN ? opt.getAttribute('data-cn') : opt.getAttribute('data-en');
+        if (text) opt.textContent = text;
       });
+    }
 
-      try {
-        const response = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: encode(data)
+    enBtn.addEventListener('click', () => setLang('en'));
+    cnBtn.addEventListener('click', () => setLang('cn'));
+
+    function encode(data) {
+      return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+    }
+
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function showMessage(type, text) {
+      formMessage.className = 'form-alert ' + type;
+      formMessage.textContent = text;
+      formMessage.style.display = 'block';
+    }
+
+    function clearMessage() {
+      formMessage.className = 'form-alert';
+      formMessage.textContent = '';
+      formMessage.style.display = 'none';
+    }
+
+    function setSubmittingState(isSubmitting) {
+      submitBtn.disabled = isSubmitting;
+      submitBtn.style.opacity = isSubmitting ? '0.7' : '';
+      submitBtn.style.cursor = isSubmitting ? 'not-allowed' : '';
+
+      const enSpan = submitBtn.querySelector('.en');
+      const cnSpan = submitBtn.querySelector('.cn');
+
+      if (enSpan) enSpan.textContent = isSubmitting ? 'Sending...' : 'Send Inquiry';
+      if (cnSpan) cnSpan.textContent = isSubmitting ? '提交中...' : '提交咨询';
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        clearMessage();
+        setSubmittingState(true);
+
+        const formData = new FormData(contactForm);
+        const data = {};
+
+        formData.forEach((value, key) => {
+          data[key] = value;
         });
 
-        if (!response.ok) {
-          throw new Error('Submission failed');
+        try {
+          const response = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: encode(data)
+          });
+
+          if (!response.ok) {
+            throw new Error('Submission failed');
+          }
+
+          contactForm.reset();
+          syncProjectStageOptions(document.body.classList.contains('lang-cn') ? 'cn' : 'en');
+
+          const isCN = document.body.classList.contains('lang-cn');
+          showMessage(
+            'success',
+            isCN ? '已收到，我们会尽快回复。' : 'Thanks — we’ll reply soon.'
+          );
+        } catch (error) {
+          const isCN = document.body.classList.contains('lang-cn');
+          showMessage(
+            'error',
+            isCN ? '提交失败，请稍后再试。' : 'Submit failed. Please try again.'
+          );
+          console.error('Form submission error:', error);
+        } finally {
+          setSubmittingState(false);
         }
+      });
+    }
 
-        contactForm.reset();
-        syncProjectStageOptions(document.body.classList.contains('lang-cn') ? 'cn' : 'en');
-
-        const isCN = document.body.classList.contains('lang-cn');
-        showMessage(
-          'success',
-          isCN ? '已收到，我们会尽快回复。' : 'Thanks — we’ll reply soon.'
-        );
-      } catch (error) {
-        const isCN = document.body.classList.contains('lang-cn');
-        showMessage(
-          'error',
-          isCN ? '提交失败，请稍后再试。' : 'Submit failed. Please try again.'
-        );
-        console.error('Form submission error:', error);
-      } finally {
-        setSubmittingState(false);
-      }
-    });
-  }
-
-  // Default language
-  setLang('en');
-  clearMessage();
-</script>
+    setLang('en');
+    clearMessage();
+  </script>
 </body>
 </html>
