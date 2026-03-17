@@ -1283,6 +1283,7 @@
 
   <!-- Netlify required hidden fields -->
   <input type="hidden" name="form-name" value="consultation" />
+
   <p style="display:none;">
     <label>Don’t fill this out: <input name="bot-field" /></label>
   </p>
@@ -1290,13 +1291,13 @@
   <div class="form-group">
     <label class="en" for="name">Full Name</label>
     <label class="cn" for="name">姓名</label>
-    <input id="name" name="name" type="text" required />
+    <input id="name" name="name" type="text" autocomplete="name" required />
   </div>
 
   <div class="form-group">
     <label class="en" for="email">Email Address</label>
     <label class="cn" for="email">电子邮箱</label>
-    <input id="email" name="email" type="email" required />
+    <input id="email" name="email" type="email" autocomplete="email" required />
   </div>
 
   <div class="form-group">
@@ -1308,7 +1309,7 @@
   <div class="form-group">
     <label class="en" for="location">Project Location</label>
     <label class="cn" for="location">项目地点</label>
-    <input id="location" name="location" type="text" required />
+    <input id="location" name="location" type="text" autocomplete="address-level2" required />
   </div>
 
   <div class="form-group">
@@ -1316,9 +1317,9 @@
     <label class="cn" for="project-stage">项目阶段</label>
     <select id="project-stage" name="projectStage" required>
       <option value="" selected disabled data-en="Select..." data-cn="请选择...">Select...</option>
-      <option value="pre" data-en="Pre-construction / Planning" data-cn="施工前 / 规划阶段">Pre-construction / Planning</option>
-      <option value="in" data-en="In construction" data-cn="施工中">In construction</option>
-      <option value="unsure" data-en="Not sure yet" data-cn="暂不确定">Not sure yet</option>
+      <option value="Pre-construction / Planning" data-en="Pre-construction / Planning" data-cn="施工前 / 规划阶段">Pre-construction / Planning</option>
+      <option value="In construction" data-en="In construction" data-cn="施工中">In construction</option>
+      <option value="Not sure yet" data-en="Not sure yet" data-cn="暂不确定">Not sure yet</option>
     </select>
   </div>
 
@@ -1328,10 +1329,13 @@
     <textarea id="message" name="message" required></textarea>
   </div>
 
-  <button class="btn en inline" type="submit">Send Inquiry</button>
-  <button class="btn cn inline" type="submit">提交咨询</button>
+  <!-- 只保留一个真正 submit 按钮 -->
+  <button class="btn" id="submit-btn" type="submit">
+    <span class="en">Send Inquiry</span>
+    <span class="cn">提交咨询</span>
+  </button>
 
-  <div id="form-message"></div>
+  <div id="form-message" role="status" aria-live="polite"></div>
 </form>
         </div>
 
@@ -1346,86 +1350,131 @@
     </div>
   </footer>
 
-  <script>
-    // Language switch
-    const enBtn = document.getElementById('en-btn');
-    const cnBtn = document.getElementById('cn-btn');
+<script>
+  // Language switch
+  const enBtn = document.getElementById('en-btn');
+  const cnBtn = document.getElementById('cn-btn');
 
-    function setLang(lang){
-      if(lang === 'cn'){
-        document.body.classList.remove('lang-en');
-        document.body.classList.add('lang-cn');
-        cnBtn.classList.add('active');
-        enBtn.classList.remove('active');
-        document.documentElement.setAttribute('lang', 'zh');
-      }else{
-        document.body.classList.remove('lang-cn');
-        document.body.classList.add('lang-en');
-        enBtn.classList.add('active');
-        cnBtn.classList.remove('active');
-        document.documentElement.setAttribute('lang', 'en');
-      }
-
-      // ✅ Sync Project Stage dropdown language
-      syncProjectStageOptions(lang);
+  function setLang(lang) {
+    if (lang === 'cn') {
+      document.body.classList.remove('lang-en');
+      document.body.classList.add('lang-cn');
+      cnBtn.classList.add('active');
+      enBtn.classList.remove('active');
+      document.documentElement.setAttribute('lang', 'zh');
+    } else {
+      document.body.classList.remove('lang-cn');
+      document.body.classList.add('lang-en');
+      enBtn.classList.add('active');
+      cnBtn.classList.remove('active');
+      document.documentElement.setAttribute('lang', 'en');
     }
 
-    function syncProjectStageOptions(lang){
-      const sel = document.getElementById('project-stage');
-      if(!sel) return;
+    syncProjectStageOptions(lang);
+  }
 
-      const isCN = (lang === 'cn');
-      [...sel.options].forEach(opt => {
-        const text = isCN ? opt.getAttribute('data-cn') : opt.getAttribute('data-en');
-        if(text) opt.textContent = text;
-      });
-    }
+  function syncProjectStageOptions(lang) {
+    const sel = document.getElementById('project-stage');
+    if (!sel) return;
 
-    enBtn.addEventListener('click', () => setLang('en'));
-    cnBtn.addEventListener('click', () => setLang('cn'));
+    const isCN = lang === 'cn';
+    [...sel.options].forEach(opt => {
+      const text = isCN ? opt.getAttribute('data-cn') : opt.getAttribute('data-en');
+      if (text) opt.textContent = text;
+    });
+  }
 
-    // Contact form submit (demo)
-    const contactForm = document.getElementById('contact-form');
-    const formMessage = document.getElementById('form-message');
+  enBtn.addEventListener('click', () => setLang('en'));
+  cnBtn.addEventListener('click', () => setLang('cn'));
 
-    contactForm.addEventListener('submit', async (e) => {
+  // Encode helper for Netlify
+  function encode(data) {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  }
+
+  // Contact form submit
+  const contactForm = document.getElementById('contact-form');
+  const formMessage = document.getElementById('form-message');
+  const submitBtn = document.getElementById('submit-btn');
+
+  function showMessage(type, text) {
+    formMessage.className = '';
+    formMessage.textContent = '';
+    formMessage.classList.add(type);
+    formMessage.textContent = text;
+    formMessage.style.display = 'block';
+  }
+
+  function clearMessage() {
+    formMessage.className = '';
+    formMessage.textContent = '';
+    formMessage.style.display = 'none';
+  }
+
+  function setSubmittingState(isSubmitting) {
+    const isCN = document.body.classList.contains('lang-cn');
+
+    submitBtn.disabled = isSubmitting;
+    submitBtn.style.opacity = isSubmitting ? '0.7' : '';
+    submitBtn.style.cursor = isSubmitting ? 'not-allowed' : '';
+
+    const enSpan = submitBtn.querySelector('.en');
+    const cnSpan = submitBtn.querySelector('.cn');
+
+    if (enSpan) enSpan.textContent = isSubmitting ? 'Sending...' : 'Send Inquiry';
+    if (cnSpan) cnSpan.textContent = isSubmitting ? '提交中...' : '提交咨询';
+  }
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async function (e) {
       e.preventDefault();
+      clearMessage();
+      setSubmittingState(true);
 
-      // Netlify Forms AJAX submit (stay on the same page)
       const formData = new FormData(contactForm);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
 
       try {
-        const resp = await fetch('/', {
+        const response = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
+          body: encode(data)
         });
 
-        if (!resp.ok) throw new Error('Network response was not ok');
+        if (!response.ok) {
+          throw new Error('Submission failed');
+        }
 
         contactForm.reset();
-        const isCN = document.body.classList.contains('lang-cn');
-        formMessage.textContent = isCN ? '已收到，我们会尽快回复。' : 'Thanks — we’ll reply soon.';
-        formMessage.classList.add('success');
+        syncProjectStageOptions(document.body.classList.contains('lang-cn') ? 'cn' : 'en');
 
-        setTimeout(() => {
-          formMessage.classList.remove('success');
-          formMessage.textContent = '';
-        }, 5000);
-      } catch (err) {
         const isCN = document.body.classList.contains('lang-cn');
-        formMessage.textContent = isCN ? '提交失败，请稍后再试。' : 'Submit failed. Please try again.';
-        formMessage.classList.add('error');
-
-        setTimeout(() => {
-          formMessage.classList.remove('error');
-          formMessage.textContent = '';
-        }, 5000);
+        showMessage(
+          'success',
+          isCN ? '已收到，我们会尽快回复。' : 'Thanks — we’ll reply soon.'
+        );
+      } catch (error) {
+        const isCN = document.body.classList.contains('lang-cn');
+        showMessage(
+          'error',
+          isCN ? '提交失败，请稍后再试。' : 'Submit failed. Please try again.'
+        );
+        console.error('Form submission error:', error);
+      } finally {
+        setSubmittingState(false);
       }
     });
+  }
 
-// Default language
-    setLang('en');
-  </script>
+  // Default language
+  setLang('en');
+  clearMessage();
+</script>
 </body>
 </html>
